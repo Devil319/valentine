@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Chotuuu ❤️ Bandar</title>
+
+<style>
+body{
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    text-align:center;
+    overflow:hidden;
+    background:linear-gradient(120deg,#ff4e50,#ff9a9e);
+    color:white;
+}
+
+/* floating hearts */
+.heart{
+    position:absolute;
+    animation:float 5s linear infinite;
+}
+@keyframes float{
+    from{transform:translateY(100vh);opacity:1;}
+    to{transform:translateY(-10vh);opacity:0;}
+}
+
+#container{margin-top:80px;}
+h1{font-size:42px;}
+h2{font-size:26px;}
+
+.btn{
+    padding:15px 35px;
+    font-size:22px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    margin:10px;
+    transition:.2s;
+}
+
+#yes{background:#ff2e63;color:white;}
+#no{
+    background:#444;
+    color:white;
+    position:absolute;
+}
+
+#final{display:none;margin-top:40px;}
+#final img{width:260px;}
+
+#startScreen{margin-top:200px;}
+
+#message{
+    width:70%;
+    margin:auto;
+    font-size:22px;
+    line-height:1.5;
+    min-height:60px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🎵 RELIABLE MUSIC -->
+<audio id="music" preload="auto">
+  <source src="https://cdn.pixabay.com/audio/2023/03/14/audio_5b9b6c2b6b.mp3" type="audio/mpeg">
+</audio>
+
+<!-- floating hearts -->
+<script>
+setInterval(()=>{
+    let h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="💖";
+    h.style.left=Math.random()*100+"vw";
+    h.style.fontSize=(15+Math.random()*25)+"px";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),5000);
+},300);
+</script>
+
+<!-- start -->
+<div id="startScreen">
+    <h1>💌 For My Special One 💌</h1>
+    <button class="btn" onclick="start()">Open ❤️</button>
+</div>
+
+<div id="container" style="display:none;">
+    <h1>Chotuuu ❤️ Bandar</h1>
+    <div id="message"></div>
+
+    <h2>Will you be my Valentine? 💍🌹</h2>
+
+    <button id="yes" class="btn">YES 💖</button>
+    <button id="no" class="btn">NO 😢</button>
+
+    <div id="final">
+        <h1>You Said YES 😭❤️</h1>
+        <h2>Forever Yours 💘</h2>
+        <img src="https://media.tenor.com/6eZ4Q9Y0J6kAAAAi/bubu-dudu.gif">
+        <h1>Chotuuu ❤️ Bandar 🌹</h1>
+    </div>
+</div>
+
+<script>
+function start(){
+    document.getElementById("startScreen").style.display="none";
+    document.getElementById("container").style.display="block";
+
+    /* Force music play after user click */
+    let music=document.getElementById("music");
+    music.volume=0.7;
+    music.play().catch(()=>{});
+
+    typeMessage();
+}
+
+/* typing message */
+const text="Bandar... From the moment you came into my life, everything became beautiful. You are my smile, my peace, my happiness...";
+let i=0;
+function typeMessage(){
+    if(i<text.length){
+        document.getElementById("message").innerHTML+=text.charAt(i);
+        i++;
+        setTimeout(typeMessage,40);
+    }
+}
+
+/* YES click */
+document.getElementById("yes").onclick=()=>{
+    document.querySelector("h2").style.display="none";
+    document.getElementById("yes").style.display="none";
+    document.getElementById("no").style.display="none";
+    document.getElementById("final").style.display="block";
+    fireworks();
+};
+
+/* fireworks */
+function fireworks(){
+    for(let i=0;i<50;i++){
+        let h=document.createElement("div");
+        h.innerHTML="💖";
+        h.style.position="absolute";
+        h.style.left="50%";
+        h.style.top="50%";
+        h.style.fontSize="24px";
+        document.body.appendChild(h);
+
+        let angle=Math.random()*2*Math.PI;
+        let dist=200+Math.random()*200;
+        let x=Math.cos(angle)*dist;
+        let y=Math.sin(angle)*dist;
+
+        h.animate([
+            {transform:"translate(0,0)",opacity:1},
+            {transform:`translate(${x}px,${y}px)`,opacity:0}
+        ],{duration:1200});
+
+        setTimeout(()=>h.remove(),1200);
+    }
+}
+
+/* NO escapes */
+const noBtn=document.getElementById("no");
+
+function moveNo(){
+    let x=Math.random()*(window.innerWidth-120);
+    let y=Math.random()*(window.innerHeight-60);
+    noBtn.style.left=x+"px";
+    noBtn.style.top=y+"px";
+}
+
+document.addEventListener("mousemove",(e)=>{
+    let r=noBtn.getBoundingClientRect();
+    let dx=e.clientX-(r.left+r.width/2);
+    let dy=e.clientY-(r.top+r.height/2);
+    if(Math.sqrt(dx*dx+dy*dy)<130)moveNo();
+});
+
+noBtn.addEventListener("touchstart",moveNo);
+setInterval(moveNo,2000);
+</script>
+
+</body>
+</html>
